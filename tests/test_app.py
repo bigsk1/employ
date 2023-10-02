@@ -6,7 +6,7 @@ import sys
 sys.path.append("..")
 
 # Import your Flask app from app.py
-from ..app import app as flask_app
+from .app import app as flask_app
 
 def test_app_exists():
     assert flask_app is not None
