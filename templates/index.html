@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Employ</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+    <meta name="msapplication-config" content="{{ url_for('static', filename='browserconfig.xml') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        {% if overall_score %}
+            <div style="text-align: center; font-size: 24px; margin-bottom: 20px;">
+                {{ overall_score }}
+            </div>
+        {% endif %}
+        <form method="post">
+        <label for="business_name">Business Name:</label>
+        <input type="text" id="business_name" name="business_name" value="{{ config.business_name }}"><br>
+        
+        <label for="location">Business City Location:</label>
+        <input type="text" id="location" name="location" value="{{ config.location }}"><br>
+        
+        <label for="yelp_weight">Yelp Weight:</label>
+        <input type="text" id="yelp_weight" name="yelp_weight" value="{{ config.yelp.weight }}"><br>
+        
+        <label for="turnover_rate">Turnover Rate % or set weight to 0:</label>
+        <input type="number" id="turnover_rate" name="turnover_rate" value="{{ config.turnover.rate }}"><br>
+
+        <label for="turnover_weight">Turnover Weight:</label>
+        <input type="text" id="turnover_weight" name="turnover_weight" value="{{ config.turnover.weight }}"><br>
+
+        <label for="credit_score">Credit Score - example 720:</label>
+        <input type="number" id="credit_score" name="credit_score" value="{{ config.credit_score.score }}"><br>
+
+        <label for="credit_weight">Credit Score Weight or set to 0:</label>
+        <input type="text" id="credit_weight" name="credit_weight" value="{{ config.credit_score.weight }}"><br>
+        
+        <label for="bbb_weight">BBB Weight:</label>
+        <input type="text" id="bbb_weight" name="bbb_weight" value="{{ config['bbb']['weight'] }}"><br>
+
+        <label for="google_weight">Google Weight:</label>
+        <input type="text" id="google_weight" name="google_weight" value="{{ config['google']['weight'] }}"><br>
+
+        <!-- Add other fields -->
+        
+        <input type="submit" value="Update and Run">
+    </form>
+    <h2 style="text-align: center;">Ratings Breakdown</h2>
+    <textarea id="logBox" readonly rows="20" cols="50">{{ log_content }}</textarea>
+    <div class="button-container">
+        <button id="clearRatingsLog">Clear Ratings</button>
+        <a href="/download_ratings_log" id="downloadRatingsLog">Download</a>
+    </div>
+    <br></br>
+   <!-- Notes Section -->
+    <div class="tabs">
+    <button class="tab-button active" onclick="showTab('weights')">Weights</button>
+    <button class="tab-button" onclick="showTab('calculation')">Calculation</button>
+    <button class="tab-button" onclick="showTab('turnover')">Turnover Rate</button>
+    <button class="tab-button" onclick="showTab('apidata')">API Raw Data</button>
+    <!-- Add more tabs here -->
+    </div>
+  
+    <div id="weights" class="tab-content active">
+    <p>Weights should be from 0.001 to 1, the max for all weights combined in calc is 1, so normal value for data point weight is 0.05 to 0.3, this is most important factor determining the weight you want to put on a certain data point. Leaving a weight field empty or setting it to 0 will exclude it from the calculation even if a number is in the other field for that data point, what matters is how much weight is given to a data point</p>
+    </div>
+  
+    <div id="calculation" class="tab-content">
+        <style>
+            #calculation ul {
+                list-style-type: none;
+                text-align: center;
+            }
+        </style>
+        <h3>How the Formula Works</h3>
+
+        <h4>Data Points</h4>
+        <ul>
+            <li><strong>Yelp Rating:</strong> We fetch the Yelp rating for the business, which is usually out of 5 stars. This rating is then scaled to a 100-point scale. For example, a 4-star Yelp rating becomes 80 on a 100-point scale.</li>
+            <li><strong>BBB Rating:</strong> The Better Business Bureau (BBB) rating is usually a letter grade (e.g., A+, A, B, etc.). We convert this letter grade to a numeric score on a 100-point scale. For instance, an 'A+' becomes 97, an 'A' becomes 94, and so on.</li>
+            <li><strong>Turnover Rate:</strong> This is the annual turnover rate for the business, entered as a percentage. A lower turnover rate is generally better and is scaled accordingly. If you don't know it that's ok leave the weight as 0.</li>
+            <li><strong>Credit Score:</strong> This is the business's credit score, which is already on a 100-point scale. 800 is considered perfect. If you don't know it just leave the weight as 0 and it will be skipped</li>
+        </ul>
+    
+        <h4>Weighted Sum</h4>
+        <p>Each of these data points is given a weight between 0.001 and 1. The sum of all weights should ideally be 1 for the most accurate results. The final score for the business is calculated as a weighted sum of these scaled data points.</p>
+    
+        <h4>Handling Missing Data</h4>
+        <p>If a data point is missing or its weight is set to zero, it will not be included in the final score calculation. This ensures that a business is not penalized for missing information.</p>
+    
+        <h4>Normalization and Missing Data</h4>
+    <ul>
+        <li>In a weighted sum calculation, each data point is multiplied by its corresponding weight, and the results are summed up.</li>
+        <li>If a data point is missing, its contribution to the sum would be zero, which is the same as not including it in the calculation at all.</li>
+        <li>The sum of the weights for the available data points is used to normalize the final score.</li>
+        <li>For example, if you have 4 data points with weights 0.4 (Yelp), 0.3 (BBB), 0.2 (Turnover Rate), and 0.1 (Credit Score), and Yelp is missing, the sum of weights for the available data would be 0.6.</li>
+        <li>If the available data points have scores of 97 (BBB), 98 (Turnover Rate), and 90 (Credit Score), the weighted sum would be (97 * 0.3) + (98 * 0.2) + (90 * 0.1) = 57.7.</li>
+        <li>To normalize this to a 100-point scale, you would divide by the sum of the weights for the available data points: 57.7 / 0.6 = 96.17.</li>
+        <li>So, the business would have a final score of 96.17 out of 100, even though the Yelp data is missing. This way, the business is not penalized for missing Yelp data.</li>
+    </ul>
+    </div>
+
+    <div id="turnover" class="tab-content">
+    <p>Turnover rate is annual and should be entered as a percentage but only the number and NOT with a % add with it, so a 5 would be 5% of the business employees were layed off in a year</p>
+    </div>
+
+    <div id="apidata" class="tab-content">
+    <p>The Raw API data is shown in the bottom box. It is there so you can troubleshoot any issues without having to get into the backend. Please note sensitive info such as tokens and api keys could be visible and this is only enabled for internel testing or in house use</p>
+    </div>
+
+<div class="raw-data-section">
+    <h2 style="text-align: center;">API Raw Data</h2>
+    <textarea id="apiDetailsBox" readonly rows="15" cols="100">{{ api_details_content }}</textarea>
+    <div class="button-container">
+        <button id="clearApiDetailsLog">Clear API Log</button>
+    </div>
+</div>    
+    <script>
+        var logBox = document.getElementById("logBox");
+        logBox.scrollTop = logBox.scrollHeight;
+    </script>
+    <script>
+        var apiDetailsBox = document.getElementById("apiDetailsBox");
+        apiDetailsBox.scrollTop = apiDetailsBox.scrollHeight;
+    </script>
+    <script>
+    function showTab(tabId) {
+        // Hide all tab contents
+        const tabContents = document.querySelectorAll('.tab-content');
+        tabContents.forEach(tab => tab.classList.remove('active'));
+      
+        // Deactivate all tab buttons
+        const tabButtons = document.querySelectorAll('.tab-button');
+        tabButtons.forEach(button => button.classList.remove('active'));
+      
+        // Show the selected tab content and activate the button
+        document.getElementById(tabId).classList.add('active');
+        document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
+        }
+    </script>
+    <script>
+        document.getElementById("clearRatingsLog").addEventListener("click", function() {
+            fetch('/clear_ratings_log', {
+                method: 'POST'
+            }).then(() => location.reload());
+        });
+    
+        document.getElementById("clearApiDetailsLog").addEventListener("click", function() {
+            fetch('/clear_api_details_log', {
+                method: 'POST'
+            }).then(() => location.reload());
+        });
+    </script>      
+</body>
+</html>

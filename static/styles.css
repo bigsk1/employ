@@ -1,0 +1,133 @@
+body {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+}
+
+label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="submit"] {
+    width: 25%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.overall-score {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #f0cd09;  /* Gold color for emphasis */
+}
+
+.notes-section {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #2e2e2e;
+    border-radius: 10px;
+    text-align: left; 
+}
+
+.notes-section h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.notes-section ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+.notes-section ul li {
+    margin-bottom: 10px;
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: #f1f1f1;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-right: 10px;
+  border-radius: 10px 10px 0 0;
+}
+
+.tab-button.active {
+  border-bottom: 2px solid #01f05d;
+  background-color: #d9d9d9;  /* Darker grey background for active tab */
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 10px;
+}
+
+button {
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+a#downloadRatingsLog {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    margin: 5px;
+}
+

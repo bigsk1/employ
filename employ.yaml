@@ -1,0 +1,14 @@
+bbb:
+  weight: 0.1
+business_name: Valley Remodeling
+credit_score:
+  score: 720
+  weight: 0.1
+google:
+  weight: 0.1
+location: Mesa
+turnover:
+  rate: 1
+  weight: 0.1
+yelp:
+  weight: 0.2

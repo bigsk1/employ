@@ -1,0 +1,13 @@
+__pycache__
+.dockerignore
+Dockerfile
+*.pyc
+*.pyo
+*.pyd
+.PyCharm*
+db.sqlite3
+*.git
+*.gitignore
+*.md
+*.log
+*.env
