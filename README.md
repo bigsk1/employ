@@ -1,6 +1,7 @@
 # Employ Business Rating System
 
 Get an overall ranking score for a business from various resources in one place
+
 ## Overview
 
 The Employ Rating System is a web and cli application designed to calculate and display the overall rating of businesses based on various data points. The application fetches ratings from multiple sources like Yelp, Google Places, and BBB, and calculates a weighted average to provide an overall score for a business.
@@ -17,7 +18,9 @@ The Employ Rating System is a web and cli application designed to calculate and 
 - **Downloadable Logs**: Users can download the log files for offline analysis.
 
 ## Installation
+
 Winodws or Linux
+
 ### Prerequisites
 
 - Python 3.x
@@ -29,67 +32,89 @@ Winodws or Linux
 #### Using Python's built-in venv
 
 1. Clone the repository
+
 ```bash
 git clone https://github.com/bigsk1/employ.git
 ```
+
 2. Navigate to the project directory
+
 ```bash
 cd employ
 ```
+
 3. Create a virtual environment
+
 ```bash
 python -m venv .venv
 ```
+
 4. Activate the virtual environment
 - On Windows:
+
  ```bash
 .venv\Scripts\activate
 ```
+
 - On macOS and Linux:
 
  ```bash
 source .venv/bin/activate
 ```
+
 5. Install required packages
+
 ```bash
 pip install -r requirements.txt
 ```
+
 6. Run the application
+
 ```bash
 python app.py
 ```
+
 #### You can also run from CLI python main.py and get output in terminal
 
 #### Using Conda
 
 1. Install [Conda](https://docs.anaconda.com/anaconda/install/) if you haven't already.
 2. Create a new Conda environment
+
     ```bash
     conda create -n employ python=3.11.0
     ```
+
 3. Activate the Conda environment
+
     ```bash
     conda activate employ
     ```
+
 4. Follow steps 1, 2, 5, and 6 from the "Using Python's built-in venv" section.
 
 ### Docker
 
 1. Docker image
+
 ```bash
 docker pull bigsk1/employ:latest
 ```
 
 2. Use the provided `docker-compose.yml` file to start the container.
+
  ```bash
 docker-compose up
 ```
+
 OR
 
 3. Use a docker run command instead, add additional -e as needed
+
 ```bash
 docker run --restart=always -p 5000:5000 -e YELP_API_KEY=yourkey bigsk1/employ:latest
-``` 
+```
+
 visit localhost:5000
 ## Usage
 
