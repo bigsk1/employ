@@ -3,7 +3,7 @@
 Get an overall ranking score for a business from various resources in one place
 ## Overview
 
-The Employ Rating System is a Flask-based web application designed to calculate and display the overall rating of businesses based on various data points. The application fetches ratings from multiple sources like Yelp, Google Places, and BBB, and calculates a weighted average to provide an overall score for a business.
+The Employ Rating System is a web and cli application designed to calculate and display the overall rating of businesses based on various data points. The application fetches ratings from multiple sources like Yelp, Google Places, and BBB, and calculates a weighted average to provide an overall score for a business.
 
 ![Employ Logo](./images/employ.png)
 
@@ -108,6 +108,15 @@ The application uses the following environment variables for API access:
 These can be set in a `.env` file in the project directory.
 
 You need to sign up and get the API keys and tokens to use the those options
+
+## Future Additions
+
+- Integration of more APIs to enhance the business ranking system.
+- Incorporation of awards or recognitions that could positively influence a business's score.
+- Adapt the tool for job seekers to evaluate potential employers.
+- Add manual entry fields for other factors important in business evaluation.
+- Implement industry-specific ranking systems with different weights or criteria.
+
 ## Contributing
 
 Feel free to open issues or submit pull requests.
