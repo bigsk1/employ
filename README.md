@@ -1,4 +1,6 @@
-# Employ Business Rating System
+# Employ - Business Ranking
+[![last commit](https://img.shields.io/github/last-commit/bigsk1/employ)](https://img.shields.io/github/last-commit/bigsk1/employ)
+[![Unit Tests](https://img.shields.io/github/actions/workflow/status/bigsk1/employ/python-app.yml?label=unit%20tests)](https://github.com/bigsk1/employ/actions/workflows/python-app.yml)
 
 Get an overall ranking score for a business from various resources in one place
 
