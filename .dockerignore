@@ -12,3 +12,5 @@ db.sqlite3
 *.log
 *.env
 tests/
+env
+.env
